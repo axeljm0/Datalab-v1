@@ -1,0 +1,69 @@
+# ---------- Secretos y credenciales ----------
+.env
+.env.*
+*.env
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials/
+.DATALAB_SECRET_KEY
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# ---------- Testing / caché ----------
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- Node / frontend ----------
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# ---------- Logs y temporales ----------
+*.log
+logs/
+tmp/
+temp/
+*.bak
+*.tmp
+*.swp
+*~
+
+# ---------- IDEs y editores ----------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ---------- Sistema operativo ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Exportaciones de datos generadas ----------
+data/exports/
+*.csv
+!tests/fixtures/*.csv
+*.sqlite
+*.db
