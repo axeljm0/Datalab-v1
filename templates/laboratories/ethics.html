@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Ética y Seguridad{% endblock %}
+{% block page %}ethics{% endblock %}
+{% block page_title %}Módulo K — Ética y Seguridad en el Manejo de Datos{% endblock %}
+{% block content %}
+<div class="panel prose">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Fundamentos</div>
+  <h2>Privacidad de los datos</h2>
+  <p>Los datos de una persona no son un recurso ilimitado: solo deben recolectarse los estrictamente
+  necesarios para el propósito declarado (<b>minimización de datos</b>) y con consentimiento informado.
+  En DataLab todos los datasets son sintéticos y reproducibles precisamente para no exponer
+  información real durante las demostraciones.</p>
+  <h2>Protección de la información</h2>
+  <p>Proteger información implica tres pilares: <b>confidencialidad</b> (solo acceso autorizado),
+  <b>integridad</b> (los datos no se alteran sin control) y <b>disponibilidad</b> (accesibles cuando
+  se necesitan). Este proyecto ejecuta todo localmente sin servicios externos, lo que reduce la
+  superficie de exposición durante la demostración.</p>
+  <h2>Uso responsable de algoritmos</h2>
+  <p>Un algoritmo solo decide con el criterio que su autor le dio. El mismo <code>greedy</code>
+  puede asignar turnos de manera eficiente o incentivar comportamientos injustos si el criterio
+  de "optimidad" está mal definido. La responsabilidad técnica incluye documentar qué optimiza
+  el algoritmo y qué sacrifica.</p>
+</div>
+
+<div class="panel prose">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg> Sesgos algorítmicos</div>
+  <p>Un sesgo ocurre cuando el algoritmo amplifica desigualdades presentes en los datos o en el
+  diseño. Fuentes típicas:</p>
+  <ul>
+    <li><b>Sesgo de datos:</b> el conjunto de entrenamiento no representa a toda la población.</li>
+    <li><b>Sesgo de selección:</b> la métrica de optimización favorece a un grupo (p. ej. "seleccionar
+    por horas de experiencia" excluye a quien trabajó a medio tiempo).</li>
+    <li><b>Sesgo de retroalimentación:</b> la salida del algoritmo influye en los datos futuros que recibe.</li>
+  </ul>
+  <div class="scenario">
+    <h4>Escenario para el debate</h4>
+    <p>Un banco usa un modelo de scoring entrenado con su historial de préstamos. Históricamente,
+    cierto distrito recibió menos préstamos, por lo que el modelo le asigna menor puntaje y el ciclo
+    se retroalimenta. <b>¿Es el modelo el problema o los datos que lo alimentaron?</b> ¿Quién debe
+    auditar el resultado?</p>
+  </div>
+  <div class="scenario">
+    <h4>Escenario: greedy con criterio questionable</h4>
+    <p>El <b>algoritmo greedy de selección de actividades</b> de este laboratorio siempre elige la que
+    termina primero. Es óptimo para "máximo número de actividades", pero si el objetivo real fuera
+    "máximo valor total por actividad" la estrategia voraz dejaría de ser óptima. Elegir el algoritmo
+    es también elegir qué valoramos.</p>
+  </div>
+</div>
+
+<div class="panel prose">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Seguridad durante el procesamiento</div>
+  <ul>
+    <li><b>Validación de entradas:</b> toda la API de DataLab valida tipos, rangos y límites antes de
+    ejecutar (ver <code>routes/</code>); las solicitudes inválidas devuelven 400 con un mensaje claro.</li>
+    <li><b>Límites de recursos:</b> las operaciones costosas tienen topes explícitos (n máximo, límite
+    de recursión en Fibonacci, tamaños omitidos en benchmarks) para no bloquear el servidor.</li>
+    <li><b>Manejo de excepciones:</b> los errores se capturan y se devuelven como JSON consistente,
+    nunca se filtran trazas internas al cliente.</li>
+  </ul>
+  <h2>Transparencia</h2>
+  <p>La transparencia exige poder explicar <b>qué hace</b> el algoritmo, <b>con qué datos</b> y
+  <b>por qué produce ese resultado</b>. DataLab lo practica: cada laboratorio muestra el análisis
+  Big O, los contadores de operaciones y el porqué de cada decisión (por ejemplo, las decisiones
+  comentadas del módulo greedy). Ningún resultado está precalculado ni simulado.</p>
+  <div class="big-o">
+    <b>Principio guía del proyecto:</b> mostrar el funcionamiento real con mediciones reales es la forma
+    más honesta de enseñar y de auditar un sistema. Si un componente no se puede explicar, no se puede
+    confiar en él.
+  </div>
+</div>
+{% endblock %}

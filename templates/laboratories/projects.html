@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Proyectos y Análisis{% endblock %}
+{% block page %}projects{% endblock %}
+{% block page_title %}Módulo L — Laboratorio de Proyectos y Análisis Experimental{% endblock %}
+{% block content %}
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg> Experimento 1 · Ordenamiento con volúmenes crecientes</div>
+  <div class="btn-row" style="margin-bottom:12px">
+    <b class="explain" style="margin:0">Algoritmos:</b>
+    <span class="legend"><input type="checkbox" id="bench_bubble" checked> <label for="bench_bubble">Bubble O(n²)</label></span>
+    <span class="legend"><input type="checkbox" id="bench_selection" checked> <label for="bench_selection">Selection O(n²)</label></span>
+    <span class="legend"><input type="checkbox" id="bench_quick" checked> <label for="bench_quick">Quick O(n log n)</label></span>
+  </div>
+  <div class="btn-row" style="margin-bottom:12px">
+    <b class="explain" style="margin:0">Tamaños:</b>
+    <span class="legend"><input type="checkbox" id="size_100" checked> <label for="size_100">100</label></span>
+    <span class="legend"><input type="checkbox" id="size_1000" checked> <label for="size_1000">1.000</label></span>
+    <span class="legend"><input type="checkbox" id="size_10000" checked> <label for="size_10000">10.000</label></span>
+    <span class="legend"><input type="checkbox" id="size_100000"> <label for="size_100000">100.000 (solo viable para Quick)</label></span>
+  </div>
+  <button class="btn btn-primary" id="runSortBenchBtn">Ejecutar experimento de ordenamiento</button>
+</div>
+
+<div class="grid grid-2">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg> Tiempo vs tamaño (escala logarítmica)</div>
+    <div class="chart-box"><canvas id="benchTimeChart"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20h-4"/></svg> Comparaciones vs tamaño</div>
+    <div class="chart-box"><canvas id="benchOpsChart"></canvas></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg> Resultados del experimento</div>
+  <div class="data-table-wrap" style="max-height:300px"><table class="data-table" id="benchTable"></table></div>
+  <p class="explain"><b>Notas del experimento:</b></p>
+  <ul id="benchNotes" class="explain" style="margin-left:18px"></ul>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg> Experimento 2 · Búsqueda: linear vs binaria</div>
+  <button class="btn btn-primary" id="runSearchBenchBtn" style="margin-bottom:12px">Ejecutar benchmark de búsqueda</button>
+  <div class="data-table-wrap"><table class="data-table" id="searchBenchTable"></table></div>
+  <div class="chart-box" style="margin-top:14px"><canvas id="searchBenchChart"></canvas></div>
+  <div class="big-o">
+    <b>Lectura correcta de los tiempos:</b> para binary search el costo de <b>ordenar</b> (preparación,
+    O(n log n)) aparece una vez y es distinto del costo por búsqueda (O(log n)). Tras la preparación, cada
+    consulta binaria es prácticamente instantánea mientras la lineal sigue pagando O(n) por consulta.
+  </div>
+</div>
+
+<div class="panel prose">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9c0-.7-.1-1.4-.2-2H12V3z"/></svg> Conclusiones técnicas (apóyese en los gráficos durante la exposición)</div>
+  <h2>1. La tasa de crecimiento manda, no el tiempo absoluto</h2>
+  <p>Los tiempos absolutos dependen del hardware, pero la <b>tasa de crecimiento</b> es reproducible:
+  al multiplicar n × 10, los algoritmos O(n²) multiplican su tiempo ≈ ×100, mientras que Quick Sort
+  solo ≈ ×10–13 (n·log n). Esto se observa directamente en la escala logarítmica del gráfico.</p>
+  <h2>2. Las operaciones elementales confirman la teoría</h2>
+  <p>El contador de comparaciones es independiente del hardware: Bubble y Selection ejecutan
+  ≈ n²/2 comparaciones exactas; Quick Sort ≈ n·log₂n. Con n = 10.000 la relación es de ≈ 700:1.</p>
+  <h2>3. La viabilidad práctica tiene límites</h2>
+  <p>A 100.000 elementos los O(n²) quedarían en el orden de minutos: por eso el sistema los
+  <b>omite con un motivo explícito</b> en lugar de fingir un resultado. Decisiones de ingeniería
+  honestas &gt; datos inventados.</p>
+  <h2>4. Preparación vs consulta en búsqueda</h2>
+  <p>Ordenar cuesta O(n log n) una sola vez; después, cada búsqueda binaria cuesta O(log n).
+  Con muchas consultas sobre el mismo conjunto, ordenar primero siempre gana a pesar de su precio inicial.</p>
+  <h2>5. Estructura correcta &gt; micro-optimización</h2>
+  <p>La diferencia entre buscar en una lista O(n) y en un BST/AVL O(log n), o entre una cola
+  circular O(1) y desplazamientos O(n), demuestra que elegir la estructura adecuada es la decisión
+  de rendimiento más importante que toma un ingeniero.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Árboles y Grafos{% endblock %}
+{% block page %}trees{% endblock %}
+{% block page_title %}Módulo D — Árboles y Grafos{% endblock %}
+{% block content %}
+<div class="grid grid-controls">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></svg> Estructura</div>
+    <label class="field"><span>Tipo</span>
+      <select id="treeType">
+        <option value="bst">Árbol binario de búsqueda (BST)</option>
+        <option value="avl">Árbol AVL (auto-balanceado)</option>
+      </select>
+    </label>
+    <label class="field"><span>Valor</span><input id="treeValue" type="number" placeholder="50"></label>
+    <div class="btn-row">
+      <button class="btn btn-sm btn-primary" id="treeInsertBtn">Insertar</button>
+      <button class="btn btn-sm" id="treeDeleteBtn">Eliminar</button>
+      <button class="btn btn-sm" id="treeSearchBtn">Buscar</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px">
+      <button class="btn btn-sm" id="sampleTreeBtn">Árbol de ejemplo</button>
+      <button class="btn btn-sm" id="resetTreeBtn">Reiniciar</button>
+      <button class="btn btn-sm" id="createTreeBtn">Crear vacío</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 3h10M7 3v6a5 5 0 0 0 10 0V3M12 14v7"/></svg> Recorridos del árbol</div>
+    <div class="btn-row">
+      <button class="btn btn-sm" id="inorderBtn">Inorder</button>
+      <button class="btn btn-sm" id="preorderBtn">Preorder</button>
+      <button class="btn btn-sm" id="postorderBtn">Postorder</button>
+    </div>
+    <div id="traversalPlayer" style="margin-top:10px"></div>
+    <div class="explain" id="traversalLabel" style="margin-top:10px;font-family:var(--mono);font-size:11.5px"></div>
+    <div class="big-o">
+      <b>Inorder</b> (Izq-Raíz-Der) devuelve los valores <i>ordenados</i>: propiedad clave del BST.<br>
+      <b>Preorder</b> sirve para serializar/clonar; <b>Postorder</b> para liberar memoria (hojas primero).<br>
+      Los tres recorren O(n); la animación resalta el nodo visitado en cada paso.
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="13" r="2.5"/><circle cx="19" cy="13" r="2.5"/><path d="M10.5 6.5L7 11M13.5 6.5L17 11"/></svg> Visualización</div>
+  <div class="viz" id="treeViz" style="min-height:340px"></div>
+  <div class="info-grid" id="treeChips" style="margin-top:12px"></div>
+  <div class="legend">
+    <span><i style="background:#8FB4FF"></i> nodo normal</span>
+    <span><i style="background:#4ADE80"></i> visitado</span>
+    <span><i style="background:#FACC15"></i> nodo actual</span>
+    <span style="font-family:var(--mono)">b±k = factor de equilibrio (solo AVL)</span>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6.5 6.5L11 17M17.5 6.5L13 17"/></svg> Grafo dirigido / no dirigido</div>
+    <label class="field"><span><input type="checkbox" id="graphDirected" style="width:auto"> Grafo dirigido</span></label>
+    <div class="grid grid-3" style="gap:8px">
+      <label class="field"><span>Vértice</span><input id="graphVertex" placeholder="A"></label>
+      <label class="field"><span>Desde</span><input id="graphFrom" placeholder="A"></label>
+      <label class="field"><span>Hasta</span><input id="graphTo" placeholder="B"></label>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-sm btn-primary" id="graphAddVertexBtn">add_vertex</button>
+      <button class="btn btn-sm" id="graphAddEdgeBtn">add_edge</button>
+      <button class="btn btn-sm" id="graphSampleBtn">Grafo de ejemplo</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px">
+      <label class="field" style="width:110px"><span>Origen BFS/DFS</span><input id="graphStart" value="A"></label>
+      <button class="btn btn-sm" id="graphBfsBtn">BFS (cola)</button>
+      <button class="btn btn-sm" id="graphDfsBtn">DFS (pila)</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg> Lista de adyacencia</div>
+    <ul class="run-log" id="adjacencyList" style="min-height:120px"></ul>
+    <div class="big-o">
+      <b>BFS:</b> explora por niveles con la cola propia del proyecto → O(V+E).<br>
+      <b>DFS:</b> explora en profundidad con la pila propia → O(V+E).<br>
+      La animación marca el orden real de visita devuelto por el backend.
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg> Información técnica</div>
+  <div class="big-o">
+    <b>BST:</b> insert/search/delete O(h). Con inserciones ordenadas h → n (árbol degenerado): pruébelo
+    insertando 10, 20, 30… y observe cómo la altura crece linealmente.<br>
+    <b>AVL:</b> rotaciones LL, RR, LR y RL mantienen h = O(log n) garantizado; el badge <code>b±k</code>
+    muestra el factor de equilibrio de cada nodo y el contador registra las rotaciones aplicadas.<br>
+    <b>Grafo:</b> lista de adyacencia con O(V+E) de espacio; dirigido almacena la arista una sola vez.
+  </div>
+</div>
+{% endblock %}

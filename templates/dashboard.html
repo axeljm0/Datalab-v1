@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Dashboard{% endblock %}
+{% block page %}dashboard{% endblock %}
+{% block page_title %}Dashboard — Laboratorio de Estructuras y Algoritmos{% endblock %}
+{% block content %}
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22c4 0 7-2 7-5s-3-5-7-5-7 2-7 5 3 5 7 5z"/><path d="M5 12l7-7 7 7"/></svg></div>
+    <div class="stat-value" id="statRuns">—</div>
+    <div class="stat-label">Registros procesados (esta sesión)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg></div>
+    <div class="stat-value" id="statAlgorithms">—</div>
+    <div class="stat-label">Algoritmos disponibles</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+    <div class="stat-value" id="statStructures">—</div>
+    <div class="stat-label">Estructuras implementadas</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+    <div class="stat-value" id="statLabs">—</div>
+    <div class="stat-label">Laboratorios interactivos</div>
+  </div>
+</div>
+
+<div class="grid grid-2" style="margin-top:18px">
+  <div class="panel">
+    <div class="panel-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+      Resumen de rendimiento · últimas ejecuciones
+    </div>
+    <ul class="run-log" id="runLog"></ul>
+  </div>
+  <div class="panel">
+    <div class="panel-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 7l4 3M18 7l-4 3M6 17l4-3M18 17l-4-3"/></svg>
+      Accesos rápidos al laboratorio
+    </div>
+    <div class="lab-links">
+      {% for lab in labs %}
+      <a class="lab-card" href="/laboratories/{{ lab.slug }}">
+        <span class="module">Módulo {{ lab.module }}</span>
+        <h3>{{ lab.name }}</h3>
+        <p>{{ lab.description }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+    Qué es DataLab
+  </div>
+  <p class="explain">
+    DataLab es un laboratorio interactivo construido para el proyecto integrador del Módulo 12. Todas las
+    estructuras de datos (arreglos dinámicos, listas enlazadas, pilas, colas, árboles BST/AVL/B, grafos,
+    tablas hash y montículos) y todos los algoritmos (búsquedas, ordenamientos, programación dinámica y
+    greedy) están <b>implementados desde cero en el backend Python</b>. El frontend solo visualiza los
+    resultados reales que produce la API REST: nada está simulado. Cada laboratorio incluye controles,
+    visualización paso a paso y el análisis Big O del algoritmo en ejecución.
+  </p>
+  <div class="big-o">
+    <b>Cómo usarlo en una demostración:</b> abra un laboratorio desde los accesos rápidos, ejecute las
+    operaciones con el reproductor (ejecutar, pausar, paso a paso, velocidad) y apóyese en el panel de
+    información técnica para explicar complejidad temporal y espacial con datos medidos, no estimados.
+  </div>
+</div>
+{% endblock %}

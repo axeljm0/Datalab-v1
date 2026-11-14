@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Algoritmos Greedy{% endblock %}
+{% block page %}greedy{% endblock %}
+{% block page_title %}Módulo H — Algoritmos Greedy{% endblock %}
+{% block content %}
+<div class="grid grid-controls">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/></svg> Selección de actividades</div>
+    <label class="field"><span>Actividades (start,end por línea)</span>
+      <textarea id="activityInput" rows="5">1,3
+2,5
+4,7
+1,8
+5,9
+8,10
+3,4</textarea></label>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="activityRunBtn">Seleccionar (greedy)</button>
+      <button class="btn btn-sm" id="activitySampleBtn">Ejemplo</button>
+    </div>
+    <div class="big-o" style="margin-top:12px">
+      <b style="color:var(--ok)">Óptimo garantizado:</b> ordenar por tiempo de finalización y tomar
+      siempre la primera compatible prueba ser óptimo por un argumento de intercambio.
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10.5h5"/></svg> Cambio de monedas greedy</div>
+    <label class="field"><span>Denominaciones</span><input id="greedyDenoms" value="1, 2, 5, 10, 20, 50, 100"></label>
+    <label class="field"><span>Monto</span><input id="greedyAmount" type="number" value="289" min="0"></label>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="greedyCoinRunBtn">Calcular cambio</button>
+      <button class="btn btn-sm" id="canonicalCheckBtn">Verificar canonicidad</button>
+      <button class="btn btn-sm" id="coinSampleBtn">Sistema canónico</button>
+      <button class="btn btn-sm" id="coinNonCanonicalBtn">No canónico {1,3,4}</button>
+    </div>
+    <div class="big-o" style="margin-top:12px">
+      Greedy toma siempre la moneda más grande. Con el sistema <b>{1,3,4}</b> y monto 6, greedy da
+      4+1+1 (3 monedas) pero el óptimo es 3+3 (2): <b style="color:var(--warn)">greedy falla</b>.
+      Con {1,2,5,10,20,50,100} la elección voraz siempre es óptima.
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/></svg> Selección de intervalos</div>
+    <label class="field"><span>Intervalos (inicio,fin por línea)</span>
+      <textarea id="intervalInput" rows="4">0,4
+4,6
+5,9
+8,12
+2,10</textarea></label>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="intervalRunBtn">Programar intervalos</button>
+    </div>
+    <div class="big-o" style="margin-top:12px">
+      El mismo principio de actividades aplicado a intervalos continuos; el sistema compara el
+      resultado greedy contra la solución DP para evidenciar si hay garantía de optimalidad.
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/></svg> Decisiones del algoritmo (animadas)</div>
+  <div id="greedyPlayer"></div>
+  <div class="viz" id="greedyViz" style="min-height:220px">
+    <div class="empty-hint">Ejecute un algoritmo greedy para ver sus decisiones paso a paso</div>
+  </div>
+  <div class="legend" style="margin-top:10px">
+    <span><i style="background:#8FB4FF"></i> elemento elegido</span>
+    <span><i style="background:#25252E"></i> elemento descartado</span>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg> Justificación de cada decisión y análisis</div>
+  <div id="greedyResult">
+    <p class="explain">Un algoritmo greedy toma la <b>decisión localmente óptima</b> en cada paso y no la
+    reconsidera. Eso es eficiente (usualmente O(n log n)), pero solo produce el óptimo global cuando el
+    problema demuestra la <b>propiedad de selección voraz</b>. DataLab ejecuta el algoritmo real, muestra
+    el porqué de cada elección y verifica contra programación dinámica si hubo garantía.</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Pilas y Colas{% endblock %}
+{% block page %}stack-queue{% endblock %}
+{% block page_title %}Módulo C — Pilas y Colas{% endblock %}
+{% block content %}
+<div class="grid grid-controls">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20h16M4 16h16M4 12h16"/></svg> Operaciones</div>
+    <label class="field"><span>Valor (vacío = aleatorio)</span><input id="sqValue" type="number" placeholder="7"></label>
+    <div class="btn-row">
+      <button class="btn btn-sm btn-primary" id="pushBtn">stack.push()</button>
+      <button class="btn btn-sm" id="popBtn">stack.pop()</button>
+      <button class="btn btn-sm" id="peekBtn">stack.peek()</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px">
+      <button class="btn btn-sm btn-primary" id="enqueueBtn">queue.enqueue()</button>
+      <button class="btn btn-sm" id="dequeueBtn">queue.dequeue()</button>
+      <button class="btn btn-sm" id="frontBtn">queue.front()</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M10 9l4 3-4 3"/></svg> Ejemplos de aplicación</div>
+    <p class="explain" style="margin-bottom:10px">Escenarios reales animados sobre las estructuras de arriba:</p>
+    <div class="btn-row">
+      <button class="btn" id="historyDemoBtn">Historial de operaciones (Ctrl+Z)</button>
+      <button class="btn" id="turnsDemoBtn">Gestión de turnos / solicitudes</button>
+    </div>
+    <div class="big-o">
+      <b>Pila (LIFO):</b> el editor guarda cada acción y <i>deshacer</i> recupera la última → pop.<br>
+      <b>Cola (FIFO):</b> las solicitudes llegan, se encolan y se atienden en el mismo orden → dequeue.<br>
+      Ambas: push/enqueue y pop/dequeue son O(1).
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-2">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="4" width="8" height="16" rx="1"/></svg> Pila (Stack) — LIFO</div>
+    <div class="viz" id="stackViz" style="min-height:260px"></div>
+    <div class="info-grid" id="stackChips" style="margin-top:12px"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h12M4 16h12M16 8l4 0M16 16l4 0M20 8v8"/></svg> Cola (Queue) — FIFO circular</div>
+    <div class="viz queue-view" id="queueViz" style="min-height:260px"></div>
+    <div class="info-grid" id="queueChips" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg> Información técnica</div>
+  <div class="grid grid-2">
+    <div>
+      <p class="explain"><b>Pila:</b> construida sobre el <code>DynamicArray</code> propio del proyecto;
+      la cima es el final del arreglo. Solo se expone la cima: push, pop y peek en O(1) amortizado.</p>
+      <p class="explain"><b>Cola:</b> buffer circular con índices <code>front</code> y <code>rear</code> que
+      rotan módulo capacidad; al llenarse duplica el espacio reordenando los elementos en orden lógico.</p>
+    </div>
+    <div class="big-o">
+      <b>push / pop / peek:</b> O(1) — solo se toca la cima<br>
+      <b>enqueue / dequeue / front:</b> O(1) — buffer circular sin desplazamientos<br>
+      <b>Espacio:</b> O(n) ambos; la cola redimensiona cuando se llena<br>
+      <b>Uso clásico:</b> pila → undo, recursión, DFS · cola → turnos, BFS, buffers
+    </div>
+  </div>
+</div>
+{% endblock %}

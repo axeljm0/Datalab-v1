@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Estructuras Avanzadas{% endblock %}
+{% block page %}advanced{% endblock %}
+{% block page_title %}Módulo I — Estructuras Avanzadas{% endblock %}
+{% block content %}
+<div class="grid grid-controls">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18"/></svg> Estructura</div>
+    <label class="field"><span>Tipo</span>
+      <select id="advType">
+        <option value="min_heap">Min Heap — raíz mínima</option>
+        <option value="max_heap">Max Heap — raíz máxima</option>
+        <option value="avl">Árbol AVL (reutilizado del Módulo D)</option>
+        <option value="b_tree">Árbol B</option>
+      </select>
+    </label>
+    <label class="field"><span>Valor</span><input id="advValue" type="number" placeholder="42"></label>
+    <div style="visibility:hidden"><label class="field"><span>Grado t (B-tree)</span><input id="advDegree" type="number" value="2" min="2" max="4"></label></div>
+    <div class="btn-row">
+      <button class="btn btn-sm btn-primary" id="advInsertBtn">Insertar</button>
+      <button class="btn btn-sm" id="advRemoveBtn">Eliminar / pop</button>
+      <button class="btn btn-sm" id="advPeekBtn">Consultar raíz</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px">
+      <button class="btn btn-sm" id="advSampleBtn">Cargar ejemplo</button>
+      <button class="btn btn-sm" id="advHeapSortBtn">Demo heapsort</button>
+      <button class="btn btn-sm" id="advResetBtn">Reiniciar</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/></svg> Qué observar</div>
+    <p class="explain"><b>Heap:</b> árbol implícito en un arreglo (hijo izq = 2i+1, der = 2i+2). Insertar
+    hace <i>sift-up</i>; extraer la raíz hace <i>sift-down</i>. El contador de movimientos muestra el
+    trabajo real O(log n).</p>
+    <p class="explain"><b>AVL:</b> reutiliza la implementación del Módulo D — observe los badges de
+    balance <code>b±k</code> y cómo la altura se mantiene en ⌈log₂(n+1)⌉ tras cada rotación.</p>
+    <p class="explain"><b>Árbol B:</b> cada nodo guarda entre t−1 y 2t−1 claves; al llenarse se divide
+    (<i>split</i>) y el medio sube. Ideal para disco: pocas alturas, muchas claves por nodo.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="13" r="2.5"/><circle cx="19" cy="13" r="2.5"/><path d="M10.5 6.5L7 11M13.5 6.5L17 11"/></svg> Visualización</div>
+  <div class="viz" id="advViz" style="min-height:320px"></div>
+  <div class="info-grid" id="advChips" style="margin-top:12px"></div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg> Análisis de complejidad</div>
+  <div class="big-o">
+    <b>Heap:</b> push O(log n) · pop O(log n) · peek O(1) · espacio O(n) — base del heapsort O(n log n).<br>
+    <b>AVL:</b> insert/search/delete O(log n) garantizado (altura acotada por 1.44·log₂n).<br>
+    <b>Árbol B:</b> insert/search/delete O(log n) accesos a disco con O(t) trabajo por nivel;
+    altura ≤ log_t((n+1)/2).<br>
+    <b>Reutilización:</b> el AVL comparte la implementación del Módulo D y los heaps comparten la clase
+    base <code>BinaryHeap</code>: no hay código duplicado entre laboratorios.
+  </div>
+</div>
+{% endblock %}

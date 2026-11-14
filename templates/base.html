@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}DataLab{% endblock %}</title>
+  <link rel="preload" href="{{ url_for('static', filename='assets/chart.umd.min.js') }}" as="script">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-page="{% block page %}{% endblock %}">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark">{# icon database #}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+      </span>
+      <div class="brand-text">
+        <span class="brand-name">DataLab</span>
+        <span class="brand-sub">Lab de Estructuras y Algoritmos</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="nav-section">General</span>
+      <a class="nav-item" href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </a>
+      <span class="nav-section">Estructuras lineales</span>
+      <a class="nav-item" href="/laboratories/lists"><span class="nav-module">B</span> Listas y Vectores</a>
+      <a class="nav-item" href="/laboratories/stack-queue"><span class="nav-module">C</span> Pilas y Colas</a>
+      <span class="nav-section">Jerarquías y redes</span>
+      <a class="nav-item" href="/laboratories/trees"><span class="nav-module">D</span> Árboles y Grafos</a>
+      <a class="nav-item" href="/laboratories/hash"><span class="nav-module">F</span> Tablas Hash</a>
+      <a class="nav-item" href="/laboratories/advanced"><span class="nav-module">I</span> Estructuras Avanzadas</a>
+      <span class="nav-section">Algoritmos</span>
+      <a class="nav-item" href="/laboratories/search-sort"><span class="nav-module">E</span> Búsqueda y Orden</a>
+      <a class="nav-item" href="/laboratories/dynamic"><span class="nav-module">G</span> Programación Dinámica</a>
+      <a class="nav-item" href="/laboratories/greedy"><span class="nav-module">H</span> Algoritmos Greedy</a>
+      <span class="nav-section">Datos y análisis</span>
+      <a class="nav-item" href="/laboratories/data"><span class="nav-module">J</span> Ciencia de Datos</a>
+      <a class="nav-item" href="/laboratories/projects"><span class="nav-module">L</span> Proyectos y Análisis</a>
+      <span class="nav-section">Complemento</span>
+      <a class="nav-item" href="/laboratories/ethics"><span class="nav-module">K</span> Ética y Seguridad</a>
+    </nav>
+    <div class="sidebar-footer">Módulo 12 · Proyecto integrador</div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <h1 class="topbar-title">{% block page_title %}{% endblock %}</h1>
+      <span class="topbar-status" id="topbarStatus">Servidor local</span>
+    </header>
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script src="{{ url_for('static', filename='assets/chart.umd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/core.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/labs.js') }}"></script>
+</body>
+</html>

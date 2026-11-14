@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}DataLab · Programación Dinámica{% endblock %}
+{% block page %}dynamic{% endblock %}
+{% block page_title %}Módulo G — Programación Dinámica{% endblock %}
+{% block content %}
+<div class="grid grid-controls">
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 17c4 0 4-10 8-10s4 10 8 10"/></svg> Fibonacci: recursivo vs dinámico</div>
+    <label class="field"><span>n</span><input id="fibN" type="number" value="20" min="0" max="100"></label>
+    <button class="btn btn-primary" id="fibRunBtn" style="width:100%">Comparar enfoques</button>
+    <div class="big-o" style="margin-top:12px">
+      El recursivo puro repite subproblemas (O(2^n)); el dinámico guarda cada resultado una vez (O(n)).
+      Con n=20 el recursivo hace <b>miles de llamadas</b>; el dinámico hace exactamente <b>21</b>.
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Mochila 0/1</div>
+    <div class="grid grid-2" style="gap:10px">
+      <label class="field"><span>Pesos</span><input id="knapWeights" value="2, 3, 4, 5"></label>
+      <label class="field"><span>Valores</span><input id="knapValues" value="3, 4, 5, 6"></label>
+    </div>
+    <label class="field"><span>Capacidad W</span><input id="knapCapacity" type="number" value="5" min="0" max="60"></label>
+    <button class="btn btn-primary" id="knapRunBtn" style="width:100%">Resolver mochila</button>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 10h6"/></svg> Coin Change (DP)</div>
+    <label class="field"><span>Denominaciones</span><input id="coinDenoms" value="1, 2, 5"></label>
+    <label class="field"><span>Monto</span><input id="coinAmount" type="number" value="11" min="0" max="5000"></label>
+    <button class="btn btn-primary" id="coinRunBtn" style="width:100%">Resolver cambio</button>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/></svg> Tabla de estados (animada)</div>
+  <div id="playerHolder"></div>
+  <div class="viz" id="dpTableBox" style="min-height:140px; display:flex; align-items:center; justify-content:center">
+    <div class="empty-hint">Ejecute un problema para construir su tabla de programación dinámica</div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#8FB4FF"></i> celda en cálculo</span>
+    <span><i style="background:#141419"></i> celda calculada</span>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg> Solución y análisis</div>
+  <div id="dpResult">
+    <p class="explain">La programación dinámica transforma problemas exponenciales en polinomiales mediante
+    dos técnicas: <b>memoización</b> (arriba hacia abajo, con caché) y <b>tabulación</b> (abajo hacia arriba,
+    llenando una tabla). DataLab implementa la tabulación y muestra cada estado intermedio.</p>
+  </div>
+</div>
+{% endblock %}
